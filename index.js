@@ -3,8 +3,7 @@ function validateFields() {
   document.getElementById("recover-password-button").disabled = !emailValid;
 
   const passwordValid = isPasswordValid();
-  document.getElementById("login-button").disabled =
-    !emailValid || !passwordValid;
+  document.getElementById("login-button").disabled = !emailValid || !passwordValid;
 }
 
 function isEmailValid() {
@@ -22,6 +21,7 @@ function isPasswordValid() {
   }
   return true;
 }
+
 function validateEmail(email) {
   return /\S+@\S+\.\S+/.test(email);
 }
