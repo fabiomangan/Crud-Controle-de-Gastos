@@ -9,7 +9,22 @@ function onChangePassword() {
 }
 
 function login() {
-  window.location.href = "pages/home/home.html";
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(form.email().value, form.password().value)
+    .then((response) => {
+      window.location.href = "pages/home/home.html";
+    })
+    .catch((error) => {
+      alert(getErrorMessage(error));
+    });
+}
+
+function getErrorMessage(error) {
+  if (error.code == "auth/user-not-found") {
+    return "Usuário nao encontrado";
+  }
+  return error.message;
 }
 
 function register() {
@@ -19,8 +34,10 @@ function register() {
 function toggleEmailErrors() {
   const email = form.email().value;
   form.emailRequiredError().style.display = email ? "none" : "block";
-  
-  form.emailInvalidError().style.display = validateEmail(email) ? "none" : "block";
+
+  form.emailInvalidError().style.display = validateEmail(email)
+    ? "none"
+    : "block";
 }
 
 function togglePasswordErrors() {
@@ -39,7 +56,7 @@ function toggleButtonsDisable() {
 function isEmailValid() {
   const email = form.email().value;
   if (!email) {
-      return false;
+    return false;
   }
   return validateEmail(email);
 }
@@ -54,6 +71,8 @@ const form = {
   emailRequiredError: () => document.getElementById("email-required-error"),
   loginButton: () => document.getElementById("login-button"),
   password: () => document.getElementById("password"),
-  passwordRequiredError: () => document.getElementById("password-required-error"),
-  recoverPasswordButton: () => document.getElementById("recover-password-button"),
-} 
+  passwordRequiredError: () =>
+    document.getElementById("password-required-error"),
+  recoverPasswordButton: () =>
+    document.getElementById("recover-password-button"),
+};
